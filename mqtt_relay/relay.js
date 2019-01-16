@@ -7,6 +7,7 @@ var mqtt_url = 'mqtt://mqtt.core.bckspc.de';
 var topics = [
     'sensor/space/member/present',
 ];
+var cache = {};
 
 var ws_client = new WebSocketClient();
 ws_client.connect(ws_url);
@@ -40,10 +41,14 @@ function ws_connect() {
 ws_client.on('connectFailed', ws_connect);
 ws_client.on('connect', (connection) => {
     console.log('websocket connected.');
+    Object.entries(cache).forEach((topic, message) => {
+        connection.sendUTF(`${topic}: ${message}`);
+    });
 
     // forward messages
     mqtt_client.on('message', function(topic, message) {
         console.log(topic, message.toString());
+        cache[topic] = message;
         connection.sendUTF(`${topic}: ${message}`);
     });
 

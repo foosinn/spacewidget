@@ -11,9 +11,7 @@ async def index(request):
     sockets.append(ws)
 
     for wsclient in sockets:
-        await wsclient.ping()
         await wsclient.send_json(cache)
-        await wsclient.send_json({'test': len(sockets)})
 
     async for msg in ws:
         if msg.type == WSMsgType.TEXT:
@@ -22,10 +20,8 @@ async def index(request):
             else:
                 pass
         elif msg.type == WSMsgType.error:
-            print(ws.exception())
             await ws.close()
 
-    print('closed')
     sockets.remove(ws)
     return ws
 
@@ -47,6 +43,11 @@ async def push(request):
             print(ws.exception())
 
     return ws
+
+@routes.get('/metrics')
+async def metrics(_):
+    _metrics = 'spacewidget_conections: %s' % len(sockets)
+    return web.Response(text=_metrics)
 
 
 app = web.Application()
