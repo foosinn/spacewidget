@@ -2,12 +2,19 @@ const mqtt = require('mqtt');
 const WebSocketClient = require('websocket').client;
 
 // params
-var ws_url = 'ws://localhost:8080/push';
-var mqtt_url = 'mqtt://mqtt.core.bckspc.de';
-var topics = [
-    'sensor/space/member/present',
-];
+
+var ws_url = process.env.WS_URL || 'ws://localhost:8080/push';
+var token = process.env.TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC9';
+var mqtt_url = process.env.MQTT_URL || 'mqtt://localhost';
+var topics = process.env.TOPICS;
+if (topics) {
+    topics = topics.split(',');
+} else {
+    topics = ['members'];
+}
 var cache = {};
+
+// setup
 
 var ws_client = new WebSocketClient();
 ws_client.connect(ws_url);
@@ -29,7 +36,6 @@ mqtt_client.on('connect', (connection) =>  {
 
 
 // ws connection handling
-
 function ws_connect() {
     console.log('ws disconnected!');
     ws_timer = setTimeout(() => {
@@ -41,6 +47,7 @@ function ws_connect() {
 ws_client.on('connectFailed', ws_connect);
 ws_client.on('connect', (connection) => {
     console.log('websocket connected.');
+    connection.sendUTF(`Authorization: Token ${token}`);
     Object.entries(cache).forEach((topic, message) => {
         connection.sendUTF(`${topic}: ${message}`);
     });

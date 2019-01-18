@@ -86,46 +86,48 @@
             <text x="43.897182" y="74.640846" fill="#ffffff" filter="url(#filter937)" font-size="40px" style="line-height:1.25" xml:space="preserve"><tspan x="43.897182" y="74.640846" fill="#ffffff" font-family="'Noto Sans'" text-align="center" text-anchor="middle" id="members">10</tspan></text>
 </g></svg>
     <script type="text/javascript">
-        var space = document.getElementById('space');
-        var members = document.getElementById('members');
-        var logo = document.getElementById('logo');
+     var space = document.getElementById('space');
+     var members = document.getElementById('members');
+     var logo = document.getElementById('logo');
 
-        function updateWidget(info) {
-            // https://coolors.co/1d4d99-fffffa-0d5c63-44a1a0-78cdd7
-            var errorColor = '#FFBF00';
-            var closedColor = 'url(#linearGradient837)';
-            var openColor = 'url(#linearGradient1036)';
+     function updateWidget(info) {
+         // https://coolors.co/1d4d99-fffffa-0d5c63-44a1a0-78cdd7
+         var offlineColor = '#FFBF00';
+         var closedColor = 'url(#linearGradient837)';
+         var openColor = 'url(#linearGradient1036)';
 
-            var count = info['sensor/space/member/present'];
-            var color = errorColor;
-            var spaceText = 'Error';
-            var membersText = '?'
+         var count = info['{{ topic }}'];
+         var color = offlineColor;
+         var spaceText = 'Offline';
+         var membersText = '?'
 
-            if (count > 0) {
-                color = openColor;
-                spaceText = 'Open';
-                membersText = count;
-            } else if (count === "0") {
-                color = closedColor;
-                spaceText = 'Closed';
-                membersText = count;
-            }
-            members.innerHTML = membersText;
-            status.style = `background-color: ${color}`;
-            space.innerHTML = spaceText;
+         if (count > 0) {
+             color = openColor;
+             spaceText = 'Open';
+             membersText = count;
+         } else if (count === "0") {
+             color = closedColor;
+             spaceText = 'Closed';
+             membersText = count;
+         }
+         members.innerHTML = membersText;
+         status.style = `background-color: ${color}`;
+         space.innerHTML = spaceText;
 
-            // var color = '#000';
-            logo.style = `fill: ${color}`;
-        }
-        var ws = new WebSocket("ws://localhost:8080/");
-        ws.onmessage = (evt) => {
-            data = JSON.parse(evt.data);
-            console.log(data);
-            updateWidget(data);
-        };
-        ws.onclose = () => {
-            console.log('closed');
-        };
+         // var color = '#000';
+         logo.style = `fill: ${color}`;
+     }
+
+     updateWidget({});
+     var ws = new WebSocket("ws://{{ host }}/status");
+     ws.onmessage = (evt) => {
+         data = JSON.parse(evt.data);
+         console.log(data);
+         updateWidget(data);
+     };
+     ws.onclose = () => {
+         console.log('closed');
+     };
     </script>
 </body>
 
