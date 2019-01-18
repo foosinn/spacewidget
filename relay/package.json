@@ -1,14 +1,11 @@
 {
-  "name": "mqtt_relay",
+  "name": "relay",
   "dependencies": {
     "mqtt": "*",
     "websocket": "*"
   },
   "version": "1.0.0",
   "main": "relay.js",
-  "scripts": {
-    "server": "relay.js"
-  },
   "author": "",
   "license": "ISC",
   "description": ""
