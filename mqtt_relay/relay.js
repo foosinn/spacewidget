@@ -48,13 +48,13 @@ ws_client.on('connectFailed', ws_connect);
 ws_client.on('connect', (connection) => {
     console.log('websocket connected.');
     connection.sendUTF(`Authorization: Token ${token}`);
-    Object.entries(cache).forEach((topic, message) => {
+    Object.entries(cache).forEach(([topic, message]) => {
         connection.sendUTF(`${topic}: ${message}`);
     });
 
     // forward messages
     mqtt_client.on('message', function(topic, message) {
-        console.log(topic, message.toString());
+        message = message.toString();
         cache[topic] = message;
         connection.sendUTF(`${topic}: ${message}`);
     });
