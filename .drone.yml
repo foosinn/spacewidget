@@ -1,0 +1,17 @@
+pipeline:
+
+  relay:
+    image: node:lts-alpine
+    commands:
+      - cd relay
+      - npm install
+      - tar cvpzf relay.tgz .
+
+  widget:
+    image: python:3-alpine
+    commands:
+      - cd widget
+      - pip install setuptools wheel
+      - python3 setup.py sdist bdist_wheel
+
+

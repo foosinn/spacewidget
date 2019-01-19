@@ -1,5 +1,5 @@
 {
-  "name": "relay",
+  "name": "spacerelay",
   "dependencies": {
     "mqtt": "*",
     "websocket": "*"
