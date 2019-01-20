@@ -62,14 +62,13 @@
      var space = document.getElementById('space');
      var members = document.getElementById('members');
      var logo = document.getElementById('logo');
+     var offlineColor = '#FFBF00';
+     var closedColor = 'url(#linearGradient837)';
+     var openColor = 'url(#linearGradient1036)';
+     var count = info['{{ topic }}'];
 
      function updateWidget(info) {
          // https://coolors.co/1d4d99-fffffa-0d5c63-44a1a0-78cdd7
-         var offlineColor = '#FFBF00';
-         var closedColor = 'url(#linearGradient837)';
-         var openColor = 'url(#linearGradient1036)';
-
-         var count = info['{{ topic }}'];
          var color = offlineColor;
          var spaceText = 'Offline';
          var membersText = '?'
