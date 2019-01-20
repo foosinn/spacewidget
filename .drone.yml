@@ -37,3 +37,14 @@ pipeline:
     remote: git@github.com:foosinn/spacewidget.git
     branch: master
     force: true
+
+  git_release:
+    image: plugins/github-release
+    environment:
+      - DRONE_REPO_OWNER=foosinn
+      - DRONE_REPO_NAME=spacewidget
+    secrets: [ github_token ]
+    files: build_results/*
+    when:
+      event:
+        - tag
