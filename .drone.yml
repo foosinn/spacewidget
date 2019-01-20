@@ -1,17 +1,30 @@
+workspace:
+
+  base: /build
+
 pipeline:
 
   relay:
     image: node:lts-alpine
     commands:
-      - cd relay
+      - mkdir build_results
+      - cd spacerelay
       - npm install
-      - tar cvpzf relay.tgz .
+      - tar cvpzf ../build_results/relay.tgz .
 
   widget:
     image: python:3-alpine
     commands:
-      - cd widget
+      - cd spacewidget
       - pip install setuptools wheel
       - python3 setup.py sdist bdist_wheel
+      - mv dist/spacewidget-*.whl ../build_results/
 
-
+  release:
+    image: plugins/gitea-release
+    base_url: https://git.core.bckspc.de
+    secrets: [ gitea_token ]
+    files: build_results/*
+    when:
+      event:
+        - tag
