@@ -71,7 +71,7 @@ async def metrics(request):
     return web.Response(text=_metrics)
 
 
-with open('index.html') as f:
+with open('spacewidget/index.html') as f:
     INDEX = f.read()
 app = web.Application()
 app.add_routes(routes)
