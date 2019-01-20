@@ -28,3 +28,12 @@ pipeline:
     when:
       event:
         - tag
+
+  git:
+    image: plugins/git-push
+    secrets:
+      - target: GIT_PUSH_SSH_KEY
+        source: github
+    remote: git@github.com:foosinn/spacewidget.git
+    branch: master
+    force: true
