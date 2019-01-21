@@ -37,3 +37,11 @@ pipeline:
     remote: git@github.com:foosinn/spacewidget.git
     branch: master
     force: true
+
+  gitrelease:
+    image: plugins/github-release
+    secrets: [ github_token ]
+    files: build_results/*
+    when:
+      event:
+        - tag
