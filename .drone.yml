@@ -45,3 +45,21 @@ pipeline:
     when:
       event:
         - tag
+
+  pypi:
+    image: gjtempleton/drone-pypi
+    repository: https://upload.pypi.org/legacy/
+    username: foosinn
+    secrets:
+      - target: PLUGIN_PASSWORD
+        source: pypi
+    setupfile: spacewidget/setup.py
+
+  npm:
+    image: plugins/npm
+    username: foosinn
+    email: npm@f2o.io
+    secrets:
+      - target: PLUGIN_TOKEN
+        source: npm
+    folder: spacerelay
