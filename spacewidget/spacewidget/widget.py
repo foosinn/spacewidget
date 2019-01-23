@@ -2,6 +2,7 @@ from aiohttp import web, WSMsgType
 from aiohttp import web_exceptions as aio_exc
 import os
 
+
 WS_TOKEN = os.environ.get('WS_TOKEN', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC9')
 METRICS_TOKEN = os.environ.get('METRICS_TOKEN', '8FTrU92m9HE47lmkBGt3I0CJGtGDE')
 MEMBER_TOPIC = os.environ.get('MEMBER_TOPIC', 'members')
@@ -13,15 +14,19 @@ routes = web.RouteTableDef()
 sockets = list()
 cache = dict()
 
+
 @routes.get('/')
 async def index(request):
+    """Display the widget."""
     text = INDEX
     text = text.replace('{{ topic }}', MEMBER_TOPIC)
     text = text.replace('{{ host }}', request.headers.get('Host'))
     return web.Response(text=text, content_type='text/html')
 
+
 @routes.get('/status')
 async def status(request):
+    """Websocket for the widget."""
     ws = web.WebSocketResponse()
     await ws.prepare(request)
     sockets.append(ws)
@@ -41,8 +46,10 @@ async def status(request):
     sockets.remove(ws)
     return ws
 
+
 @routes.get('/push')
 async def push(request):
+    """Websocket for pushing updates."""
     ws = web.WebSocketResponse()
     await ws.prepare(request)
 
@@ -66,8 +73,10 @@ async def push(request):
 
     return ws
 
+
 @routes.get('/metrics')
 async def metrics(request):
+    """Provides prometheus metrics."""
     if not request.headers.get('Authorization', '') == f'Token {WS_TOKEN}':
         raise aio_exc.HTTPForbidden
     _metrics = 'spacewidget_conections: %s' % len(sockets)
