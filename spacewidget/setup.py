@@ -13,6 +13,10 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     package_data={
         'spacewidget': ['index.html'],
-    }
+    },
+    entry_points={
+        'console_scripts': [
+            'spacewidget=spacewidget.widget:main',
+        ],
+    },
 )
-

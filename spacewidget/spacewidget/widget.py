@@ -89,7 +89,8 @@ def init(argv):
     app.add_routes(routes)
     return app
 
-if __name__ == '__main__':
+
+def main():
     app = init([])
     args = {}
     if LISTEN.startswith('unix://'):
@@ -98,3 +99,7 @@ if __name__ == '__main__':
     elif ':' in LISTEN:
         args['host'], args['port'] = LISTEN.split(':', 1)
     web.run_app(app, **args)
+
+
+if __name__ == '__main__':
+    main()
