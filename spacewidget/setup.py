@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='spacewidget',
-    version='0.1.4',
+    version='0.1.5',
     author='foosinn',
     author_email='foosinn@f2o.io',
     url='https://github.com/foosinn/spacewidget',
