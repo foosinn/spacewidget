@@ -18,7 +18,7 @@ pipeline:
       - cd spacewidget
       - pip install setuptools wheel
       - python3 setup.py sdist bdist_wheel
-      - mv dist/spacewidget-*.whl ../build_results/
+      - cp dist/spacewidget-*.whl ../build_results/
 
   release:
     image: plugins/gitea-release
@@ -47,13 +47,14 @@ pipeline:
         - tag
 
   pypi:
-    image: gjtempleton/drone-pypi
-    repository: https://upload.pypi.org/legacy/
-    username: foosinn
+    image: python:3-alpine
     secrets:
-      - target: PLUGIN_PASSWORD
+      - target: TWINE_PASSWORD
         source: pypi
-    setupfile: spacewidget/setup.py
+    commands:
+      - cd spacewidget
+      - pip install twine
+      - python3 -m twine upload -u foosinn dist/*
 
   npm:
     image: plugins/npm
