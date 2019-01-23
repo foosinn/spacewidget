@@ -26,4 +26,4 @@ These environment variables are availible:
 * `WS_TOKEN`: Security token that is required to update, needs to be the same as relay uses.
 * `METRICS_TOKEN`: Token for the HTTP header to acces `/metrics`.
 * `MEMBER_TOPIC`: Name of the topic that will be displayed in the widget.
-
+* `LISTEN`: A socket (`unix:///var/run/widget.sock`) or a address (`localhost:8080`) to listen on.

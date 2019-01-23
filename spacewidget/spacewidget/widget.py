@@ -5,6 +5,9 @@ import os
 WS_TOKEN = os.environ.get('WS_TOKEN', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC9')
 METRICS_TOKEN = os.environ.get('METRICS_TOKEN', '8FTrU92m9HE47lmkBGt3I0CJGtGDE')
 MEMBER_TOPIC = os.environ.get('MEMBER_TOPIC', 'members')
+LISTEN = os.environ.get('LISTEN', 'localhost:8080')
+with open('spacewidget/index.html') as f:
+    INDEX = f.read()
 
 routes = web.RouteTableDef()
 sockets = list()
@@ -71,8 +74,18 @@ async def metrics(request):
     return web.Response(text=_metrics)
 
 
-with open('spacewidget/index.html') as f:
-    INDEX = f.read()
-app = web.Application()
-app.add_routes(routes)
-web.run_app(app)
+def init(argv):
+    """Entrypoint."""
+    app = web.Application()
+    app.add_routes(routes)
+    return app
+
+if __name__ == '__main__':
+    app = init([])
+    args = {}
+    if LISTEN.startswith('unix://'):
+        args['path'] = LISTEN[7:]
+        print(args)
+    elif ':' in LISTEN:
+        args['host'], args['port'] = LISTEN.split(':', 1)
+    web.run_app(app, **args)
