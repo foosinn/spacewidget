@@ -1,14 +1,17 @@
+from pathlib import Path
+import os
+
 from aiohttp import web, WSMsgType
 from aiohttp import web_exceptions as aio_exc
-import os
 
 
 WS_TOKEN = os.environ.get('WS_TOKEN', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC9')
 METRICS_TOKEN = os.environ.get('METRICS_TOKEN', '8FTrU92m9HE47lmkBGt3I0CJGtGDE')
 MEMBER_TOPIC = os.environ.get('MEMBER_TOPIC', 'members')
 LISTEN = os.environ.get('LISTEN', 'localhost:8080')
-with open('spacewidget/index.html') as f:
+with open(str(Path(Path(__file__).parent, 'index.html'))) as f:
     INDEX = f.read()
+
 
 routes = web.RouteTableDef()
 sockets = list()
