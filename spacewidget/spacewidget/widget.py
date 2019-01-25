@@ -56,7 +56,7 @@ async def push(request):
     auth_msg = await ws.receive()
     if not auth_msg.type == WSMsgType.TEXT:
         raise aio_exc.HTTPForbidden
-    if not auth_msg.data == f'Authorization: Token {WS_TOKEN}':
+    if not auth_msg.data == 'Authorization: Token %s' % WS_TOKEN:
         raise aio_exc.HTTPForbidden
 
     async for msg in ws:
@@ -77,7 +77,7 @@ async def push(request):
 @routes.get('/metrics')
 async def metrics(request):
     """Provides prometheus metrics."""
-    if not request.headers.get('Authorization', '') == f'Token {WS_TOKEN}':
+    if not request.headers.get('Authorization', '') == 'Token %s' % WS_TOKEN:
         raise aio_exc.HTTPForbidden
     _metrics = 'spacewidget_conections: %s' % len(sockets)
     return web.Response(text=_metrics)
