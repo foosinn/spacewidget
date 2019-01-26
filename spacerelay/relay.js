@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const mqtt = require('mqtt');
 const WebSocketClient = require('websocket').client;
 

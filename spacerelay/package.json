@@ -4,9 +4,12 @@
     "mqtt": "*",
     "websocket": "*"
   },
-  "version": "0.1.6",
+  "version": "0.1.7",
   "main": "relay.js",
   "author": "foosinn",
   "license": "AGPL 3.0",
-  "description": ""
+  "description": "",
+  "bin": {
+    "spacerelay": "./relay.js"
+  }
 }
