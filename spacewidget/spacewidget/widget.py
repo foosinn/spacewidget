@@ -80,7 +80,7 @@ async def push(request):
 @routes.get('/metrics')
 async def metrics(request):
     """Provides prometheus metrics."""
-    if not request.headers.get('Authorization', '') == 'Token %s' % WS_TOKEN:
+    if not request.headers.get('Authorization', '') == 'Token %s' % METRICS_TOKEN:
         raise aio_exc.HTTPForbidden
     _metrics = 'spacewidget_conections: %s' % len(sockets)
     return web.Response(text=_metrics)
