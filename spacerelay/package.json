@@ -4,7 +4,7 @@
     "mqtt": "*",
     "websocket": "*"
   },
-  "version": "0.1.9",
+  "version": "0.1.11",
   "main": "relay.js",
   "author": "foosinn",
   "license": "AGPL 3.0",
