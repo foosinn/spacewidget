@@ -90,7 +90,7 @@
      }
 
      updateWidget({});
-     var ws = new WebSocket("ws://{{ host }}/status");
+     var ws = new WebSocket("wss://{{ host }}/status");
      ws.onmessage = (evt) => {
          data = JSON.parse(evt.data);
          console.log(data);
