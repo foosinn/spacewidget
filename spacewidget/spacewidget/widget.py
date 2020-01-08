@@ -34,8 +34,7 @@ async def status(request):
     await ws.prepare(request)
     sockets.append(ws)
 
-    for wsclient in sockets:
-        await wsclient.send_json(cache)
+    await ws.send_json(cache)
 
     async for msg in ws:
         if msg.type == WSMsgType.TEXT:
